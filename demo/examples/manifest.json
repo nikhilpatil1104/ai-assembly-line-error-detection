@@ -1,0 +1,92 @@
+[
+  {
+    "filename": "pass.png",
+    "expected_status": "Pass",
+    "ground_truth_bboxes": {
+      "red_switch": [
+        183,
+        273,
+        268,
+        358
+      ],
+      "blue_connector": [
+        424,
+        277,
+        513,
+        354
+      ],
+      "yellow_latch": [
+        666,
+        280,
+        755,
+        351
+      ]
+    }
+  },
+  {
+    "filename": "missing_blue.png",
+    "expected_status": "Needs Review",
+    "ground_truth_bboxes": {
+      "red_switch": [
+        183,
+        273,
+        268,
+        358
+      ],
+      "yellow_latch": [
+        666,
+        280,
+        755,
+        351
+      ]
+    }
+  },
+  {
+    "filename": "misplaced_yellow.png",
+    "expected_status": "Needs Review",
+    "ground_truth_bboxes": {
+      "red_switch": [
+        183,
+        273,
+        268,
+        358
+      ],
+      "blue_connector": [
+        424,
+        277,
+        513,
+        354
+      ],
+      "yellow_latch": [
+        536,
+        280,
+        625,
+        351
+      ]
+    }
+  },
+  {
+    "filename": "misplaced_red.png",
+    "expected_status": "Needs Review",
+    "ground_truth_bboxes": {
+      "red_switch": [
+        308,
+        273,
+        393,
+        358
+      ],
+      "blue_connector": [
+        424,
+        277,
+        513,
+        354
+      ],
+      "yellow_latch": [
+        666,
+        280,
+        755,
+        351
+      ]
+    }
+  }
+]
