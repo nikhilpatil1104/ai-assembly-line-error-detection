@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AI-Based Assembly Line Error Detection System
 
 **Computer Vision + AI · Manufacturing quality-control prototype**
@@ -236,3 +237,6 @@ requirements-dashboard.txt  Adds Streamlit UI
 - Real-time conveyor, multi-product deployment, and robust automated acceptance are outside the current scope.
 
 **References:** [Ultralytics model training](https://docs.ultralytics.com/modes/train/) · [model validation](https://docs.ultralytics.com/modes/val/) · [custom dataset training configuration](https://docs.ultralytics.com/usage/cfg/)
+=======
+# ai-assembly-line-error-detection
+>>>>>>> 2be9abbe6153ef2f684c70e5b8cf5a28bd759239
