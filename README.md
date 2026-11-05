@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # AI-Based Assembly Line Error Detection System
 
 **Computer Vision + AI · Manufacturing quality-control prototype**
