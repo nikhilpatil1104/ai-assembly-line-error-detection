@@ -238,5 +238,4 @@ requirements-dashboard.txt  Adds Streamlit UI
 
 **References:** [Ultralytics model training](https://docs.ultralytics.com/modes/train/) · [model validation](https://docs.ultralytics.com/modes/val/) · [custom dataset training configuration](https://docs.ultralytics.com/usage/cfg/)
 =======
-# ai-assembly-line-error-detection
->>>>>>> 2be9abbe6153ef2f684c70e5b8cf5a28bd759239
+
