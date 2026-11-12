@@ -47,14 +47,14 @@ python -m training.evaluate_yolo --split test
 
 Open **two PowerShell windows** in the project directory and activate the same environment in each.
 
-Window 1 — backend API:
+Window 1 - backend API:
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
 uvicorn assembly.api:app --reload
 ```
 
-Window 2 — Streamlit frontend:
+Window 2 - Streamlit frontend:
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
