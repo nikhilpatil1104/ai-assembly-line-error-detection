@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: engine-assembly-detection-api
+    runtime: python
+    plan: free
+    region: ohio
+    branch: main
+    buildCommand: python -m pip install --upgrade pip && python -m pip install -r requirements-ml.txt
+    startCommand: python -m uvicorn assembly.api:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.18"
+      - key: ASSEMBLY_DETECTOR
+        value: yolo
+      - key: ASSEMBLY_WEIGHTS
+        value: weights/engine_assembly_best.pt

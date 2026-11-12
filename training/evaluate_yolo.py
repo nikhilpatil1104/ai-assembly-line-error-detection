@@ -15,7 +15,7 @@ def main():
         raise SystemExit("Need both trained weights and labeled dataset YAML (see README).")
     from ultralytics import YOLO
     results = YOLO(str(args.weights)).val(data=str(args.data.resolve()), split=args.split,
-                                          imgsz=640, plots=True)
+                                          imgsz=320, plots=True)
     summary = {
         "split": args.split, "data": str(args.data.resolve()),
         "weights": str(args.weights.resolve()),

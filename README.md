@@ -63,6 +63,22 @@ streamlit run dashboard/app.py
 
 Open the Streamlit URL printed by the command (usually `http://localhost:8501`). The API docs are at `http://localhost:8000/docs`. Upload an engine assembly image to view detected class names, confidence scores, and bounding boxes. The API returns **Detection Complete** when it finds confident objects and **Needs Review** when results are uncertain; neither status means the assembly passed or failed quality control.
 
+## Host a public demo
+
+The repository is prepared for a free prototype deployment: Render hosts the FastAPI backend, and Streamlit Community Cloud hosts the UI.
+
+1. In Render, create a **Blueprint** from this GitHub repository and deploy `render.yaml`. This creates the API using the included model weights. Wait for its deploy to finish and copy its public `https://...onrender.com` URL.
+2. In [Streamlit Community Cloud](https://share.streamlit.io/), create an app from this repository, branch `main`, entrypoint `dashboard/app.py`.
+3. In the app's settings, add this secret, replacing the value with your Render API URL:
+
+   ```toml
+   ASSEMBLY_API = "https://your-api-name.onrender.com"
+   ```
+
+4. Open the app URL from Streamlit Community Cloud and upload an engine assembly photo.
+
+The free Render API sleeps after 15 minutes without requests, so its first request after idling can take about a minute. Its local inspection history and annotated images are temporary and may be cleared when the service sleeps or redeploys. The free instance has 512 MB RAM; if Render reports an out-of-memory restart, change the API service to a 2 GB plan. This is a public prototype without login protection; do not upload sensitive or production images.
+
 ## Troubleshooting
 
 - If a virtual environment was moved from another folder, delete and recreate it with the setup commands above. Virtual environments contain absolute paths and do not survive moves reliably.

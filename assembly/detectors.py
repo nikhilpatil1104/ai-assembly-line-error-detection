@@ -64,7 +64,7 @@ class YoloAssemblyDetector:
     def detect(self, bgr):
         # Retain weak candidates so the review engine can classify uncertainty.
         result = self.model.predict(
-            source=bgr, conf=settings()["low_confidence_floor"], verbose=False
+            source=bgr, conf=settings()["low_confidence_floor"], imgsz=320, verbose=False
         )[0]
         names = result.names
         found = []

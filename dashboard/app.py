@@ -5,14 +5,19 @@ import os
 import pandas as pd
 import requests
 import streamlit as st
+from streamlit.errors import StreamlitSecretNotFoundError
 
 
 st.set_page_config(page_title="Assembly Quality Inspector", page_icon="🏭", layout="wide")
 st.title("Engine Assembly Object Detection")
 st.caption("Upload engine assembly photos to detect and review engine part labels.")
 
+try:
+    configured_api = st.secrets.get("ASSEMBLY_API")
+except StreamlitSecretNotFoundError:
+    configured_api = None
 api_base = st.sidebar.text_input(
-    "FastAPI base URL", os.getenv("ASSEMBLY_API", "http://127.0.0.1:8000")
+    "FastAPI base URL", os.getenv("ASSEMBLY_API", configured_api or "http://127.0.0.1:8000")
 ).strip().rstrip("/")
 st.sidebar.caption("Start the API with `uvicorn assembly.api:app --reload`.")
 

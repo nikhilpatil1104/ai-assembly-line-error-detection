@@ -9,6 +9,7 @@ __pycache__/
 .vscode/
 .idea/
 weights/*.pt
+!weights/engine_assembly_best.pt
 runs/
 dataset/images/
 dataset/labels/
