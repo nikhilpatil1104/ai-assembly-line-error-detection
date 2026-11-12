@@ -40,7 +40,7 @@ class InspectionStore:
         findings = {k: result.get(k) for k in (
             "reason_codes", "missing", "misplaced", "extra", "unknown",
             "uncertain", "detected_counts", "processing_error", "assembly_id",
-            "confidence_note"
+            "confidence_note", "decision_scope"
         )}
         with self._conn() as db:
             db.execute("""INSERT INTO inspections VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""", (
@@ -80,11 +80,24 @@ class InspectionStore:
         return [self._deserialize(row) for row in rows]
 
     def summary(self):
+        review_reasons = {}
+        detection_counts = {}
         with self._conn() as db:
-            count = db.execute("SELECT count(*) FROM inspections").fetchone()[0]
-            flagged = db.execute("SELECT count(*) FROM inspections WHERE status != 'Pass'").fetchone()[0]
+            rows = db.execute("SELECT status, findings FROM inspections").fetchall()
+        count = len(rows)
+        flagged = sum(row["status"] == "Needs Review" for row in rows)
+        passed = sum(row["status"] == "Pass" for row in rows)
+        detection_complete = sum(row["status"] == "Detection Complete" for row in rows)
+        for row in rows:
+            findings = json.loads(row["findings"])
+            for code in findings.get("reason_codes") or []:
+                review_reasons[code] = review_reasons.get(code, 0) + 1
+            for label, amount in (findings.get("detected_counts") or {}).items():
+                detection_counts[label] = detection_counts.get(label, 0) + amount
         return {"inspected_units": count, "flagged_units": flagged,
-                "passed_units": count - flagged, "flagged_rate": round(flagged / count, 4) if count else 0.0}
+                "passed_units": passed, "detection_complete_units": detection_complete,
+                "flagged_rate": round(flagged / count, 4) if count else 0.0,
+                "review_reasons": review_reasons, "detection_counts": detection_counts}
 
     def export_csv(self):
         out = io.StringIO()

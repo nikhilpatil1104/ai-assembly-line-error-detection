@@ -14,6 +14,28 @@ def verify(detections: list[Detection], image_size: tuple[int, int], layout: dic
     width, height = image_size
     if width <= 0 or height <= 0:
         raise ValueError("Invalid image dimensions")
+    if layout.get("inspection_mode") == "detection_only":
+        certain = [d for d in detections if d.confidence >= confidence_threshold]
+        low = [d for d in detections if d.confidence < confidence_threshold]
+        counts = Counter(d.label for d in certain)
+        reasons = []
+        codes = []
+        if low:
+            codes.append("uncertain_detection")
+            reasons.append("Low-confidence detections need human review: " +
+                           ", ".join(sorted({d.label for d in low})))
+        if not certain:
+            codes.append("no_confident_detections")
+            reasons.append("No engine parts were confidently detected; check the image manually.")
+        return {
+            "status": "Needs Review" if reasons else "Detection Complete",
+            "reason_codes": codes,
+            "reasons": reasons,
+            "missing": {}, "misplaced": [], "extra": {}, "unknown": {},
+            "uncertain": bool(low),
+            "detected_counts": dict(counts),
+            "decision_scope": "Object detection only; assembly completeness and placement are not assessed.",
+        }
     required = layout["components"]
     certain = [d for d in detections if d.confidence >= confidence_threshold]
     low = [d for d in detections if d.confidence < confidence_threshold]
@@ -78,12 +100,15 @@ def verify(detections: list[Detection], image_size: tuple[int, int], layout: dic
 
 def batch_quality(inspection_statuses: list[str], warning_threshold: float = 0.10) -> dict:
     total = len(inspection_statuses)
-    flagged = sum(status != "Pass" for status in inspection_statuses)
+    flagged = sum(status not in ("Pass", "Detection Complete") for status in inspection_statuses)
+    passed = sum(status == "Pass" for status in inspection_statuses)
+    completed = sum(status in ("Pass", "Detection Complete") for status in inspection_statuses)
     rate = flagged / total if total else 0.0
     return {
         "inspected_units": total,
         "flagged_units": flagged,
-        "passed_units": total - flagged,
+        "passed_units": passed,
+        "completed_units": completed,
         "flagged_rate": round(rate, 4),
         "warning_threshold": warning_threshold,
         # Requirement: more than 10%, not >=10%.

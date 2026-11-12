@@ -40,6 +40,11 @@ def settings() -> dict:
 @lru_cache(maxsize=1)
 def get_layout() -> dict:
     layout = json.loads(LAYOUT_PATH.read_text(encoding="utf-8"))
+    if layout.get("inspection_mode") == "detection_only":
+        classes = layout.get("classes")
+        if not isinstance(classes, list) or not classes or len(classes) != len(set(classes)):
+            raise ValueError("Detection-only layout must provide a unique nonempty class list")
+        return layout
     if not layout.get("components"):
         raise ValueError("Assembly layout must include components")
     for label, spec in layout["components"].items():

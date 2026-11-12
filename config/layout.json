@@ -1,19 +1,16 @@
 {
-  "assembly_id": "control_panel_v1",
-  "display_name": "Three-Part Control Panel Assembly (Demo Fixture)",
-  "description": "One fixed-camera assembly with three required colored components.",
-  "components": {
-    "red_switch": {
-      "count": 1,
-      "zone": [0.14, 0.30, 0.36, 0.68]
-    },
-    "blue_connector": {
-      "count": 1,
-      "zone": [0.41, 0.30, 0.63, 0.68]
-    },
-    "yellow_latch": {
-      "count": 1,
-      "zone": [0.68, 0.30, 0.90, 0.68]
-    }
-  }
+  "assembly_id": "engine_assembly_v1",
+  "display_name": "Engine Assembly Object Detection",
+  "description": "Real-image engine-part detection. This dataset does not label defective assembly decisions or validated placement zones.",
+  "inspection_mode": "detection_only",
+  "classes": [
+    "PushRod",
+    "Bolt",
+    "RockerArmObject",
+    "BoltHoles",
+    "Engine",
+    "RockerArm",
+    "Small_PushRodHoles",
+    "Big_PushRodHoles"
+  ]
 }

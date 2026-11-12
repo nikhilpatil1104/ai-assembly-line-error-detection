@@ -13,6 +13,9 @@ runs/
 dataset/images/
 dataset/labels/
 dataset/assembly_dataset.yaml
+dataset/EngineAssembly.zip
+dataset/engine_assembly_source/
+dataset/engine_assembly_yolo/
 demo/generated/
 *.sqlite3
 decision_evaluation_results.json

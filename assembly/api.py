@@ -5,6 +5,7 @@ from time import perf_counter
 from uuid import uuid4
 
 from fastapi import Depends, FastAPI, File, HTTPException, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, Response
 
 from .detectors import get_detector
@@ -16,7 +17,17 @@ from .verification import batch_quality, verify
 app = FastAPI(
     title="AI-Based Assembly Line Error Detection API",
     version="1.0.0",
-    description="Fixed-camera manufacturing quality-control: part presence, placement regions, batch error rate."
+    description="Detects engine assembly objects in real images. This dataset does not support missing-part or placement defect decisions."
+)
+
+# The standalone frontend may be opened as a file (origin "null") or served
+# from a local development server. It only needs read and upload access to this
+# local API, so allow those local origins without enabling credentialed CORS.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origin_regex=r"^(null|https?://(localhost|127\.0\.0\.1)(:\d+)?)$",
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
 )
 
 

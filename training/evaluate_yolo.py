@@ -7,8 +7,8 @@ from assembly.settings import ROOT
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--weights", type=Path, default=ROOT / "weights" / "best.pt")
-    parser.add_argument("--data", type=Path, default=ROOT / "dataset" / "assembly_dataset.yaml")
+    parser.add_argument("--weights", type=Path, default=ROOT / "weights" / "engine_assembly_best.pt")
+    parser.add_argument("--data", type=Path, default=ROOT / "dataset" / "engine_assembly_yolo" / "data.yaml")
     parser.add_argument("--split", choices=["val", "test"], default="test")
     args = parser.parse_args()
     if not args.weights.is_file() or not args.data.is_file():

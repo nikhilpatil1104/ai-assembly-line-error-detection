@@ -53,7 +53,8 @@ class YoloAssemblyDetector:
         self.model = YOLO(str(path))
         trained_names = self.model.names
         model_classes = set(trained_names.values() if isinstance(trained_names, dict) else trained_names)
-        required_classes = set(get_layout()["components"])
+        layout = get_layout()
+        required_classes = set(layout.get("classes", layout.get("components", {})))
         if model_classes != required_classes:
             raise ValueError(
                 f"Model classes {sorted(model_classes)} do not match required "

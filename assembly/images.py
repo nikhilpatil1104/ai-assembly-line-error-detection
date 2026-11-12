@@ -25,13 +25,14 @@ def draw_overlay(image, layout: dict, detections: list[Detection], decision: dic
                  confidence_threshold: float = 0.55) -> bytes:
     overlay = image.copy()
     height, width = overlay.shape[:2]
-    for label, spec in layout["components"].items():
-        x1, y1, x2, y2 = spec["zone"]
-        start = (int(x1 * width), int(y1 * height))
-        end = (int(x2 * width), int(y2 * height))
-        cv2.rectangle(overlay, start, end, (120, 175, 80), 2)
-        cv2.putText(overlay, label, (start[0], max(start[1] - 8, 15)),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (40, 80, 20), 2, cv2.LINE_AA)
+    if layout.get("inspection_mode") != "detection_only":
+        for label, spec in layout["components"].items():
+            x1, y1, x2, y2 = spec["zone"]
+            start = (int(x1 * width), int(y1 * height))
+            end = (int(x2 * width), int(y2 * height))
+            cv2.rectangle(overlay, start, end, (120, 175, 80), 2)
+            cv2.putText(overlay, label, (start[0], max(start[1] - 8, 15)),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (40, 80, 20), 2, cv2.LINE_AA)
     misplaced = {tuple(row["bbox"]) for row in decision["misplaced"]}
     for d in detections:
         x1, y1, x2, y2 = d.bbox
